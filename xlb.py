@@ -1,0 +1,167 @@
+#!/usr/bin/env python
+
+import math
+import types
+import win32com.client
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+class xlbApp(object):
+    #-------------------------------------------------------------------------------
+    def __init__(self):
+        self.__app = win32com.client.DispatchEx("Excel.Application")
+        self.__app.Visible = 1
+
+    #-------------------------------------------------------------------------------
+    def addWorkBook(self):
+        wb = self.__app.Workbooks.Add()
+        return xlbWorkBook(self.__app, wb)
+
+    #-------------------------------------------------------------------------------
+    def openWorkBook(self, strName):
+        wb = self.__app.Workbooks.Open(strName)
+        return xlbWorkBook(self.__app, wb)
+
+    #-------------------------------------------------------------------------------
+    def getWorkBook(self, strFullName):
+        count = self.__app.Workbooks.Count
+        strFullName = strFullName.replace('/', '\\')
+        for i in range(count):
+            wb = self.__app.Workbooks.Item(i+1)
+            if wb.FullName == strFullName:
+                return xlbWorkBook(self.__app, wb)
+        return None
+
+    #-------------------------------------------------------------------------------
+    def quit(self):
+        self.__app.Quit()
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+class xlbWorkBook(object):
+    #-------------------------------------------------------------------------------
+    def __init__(self, app, wb):
+        self.__app = app
+        self.__wb  = wb
+
+    #-------------------------------------------------------------------------------
+    def save(self):
+        self.__wb.Save()
+
+    #-------------------------------------------------------------------------------
+    def saveAs(self, strName):
+        self.__wb.SaveAs(strName, self.__app.DefaultSaveFormat)
+
+    #-------------------------------------------------------------------------------
+    def activate(self):
+        self.__wb.Activate()
+
+    #-------------------------------------------------------------------------------
+    def addWorkSheet(self):
+        ws = self.__wb.WorkSheets.Add()
+        return xlbWorkSheet(self.__app, ws)
+
+    #-------------------------------------------------------------------------------
+    def getWorkSheet(self, strName):
+        count = self.__wb.Worksheets.Count
+        for i in range(count):
+            ws = self.__wb.Worksheets.Item(i+1)
+            if ws.Name == strName:
+                return xlbWorkSheet(self, ws)
+        return None
+
+    #-------------------------------------------------------------------------------
+    def close(self):
+        self.__wb.Close()
+
+    #-------------------------------------------------------------------------------
+    def closeNoSave(self):
+        self.__wb.Saved = True
+        self.close()
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+class xlbWorkSheet(object):
+    #-------------------------------------------------------------------------------
+    def __init__(self, wb, ws):
+        self.__wb = wb
+        self.__ws = ws
+
+    #-------------------------------------------------------------------------------
+    def activate(self):
+        self.__ws.Activate()
+
+    #-------------------------------------------------------------------------------
+    def setName(self, strName):
+        self.__ws.Name = strName
+
+    #-------------------------------------------------------------------------------
+    def getRange(self, iFrmRow, iFrmCol, iToRow=0, iToCol=0):
+        range = self.__ws.Range(self.__getRangeId(iFrmRow, iFrmCol, iToRow, iToCol))
+        return xlbRange(self, range)
+
+    #-------------------------------------------------------------------------------
+    def __getRangeId(self, iFrmRow, iFrmCol, iToRow=0, iToCol=0):
+        if iFrmRow == 0 or iFrmCol == 0:
+            return ''
+
+        strFrmCell =  self.__getCellId(iFrmRow, iFrmCol)         
+        if iToRow == 0 or iToCol == 0:
+            return strFrmCell + ":" + strFrmCell
+
+        strToCell =  self.__getCellId(iToRow, iToCol)        
+        return strFrmCell + ":" + strToCell   
+
+    #-------------------------------------------------------------------------------
+    def __getCellId(self, iRow, iCol):
+        strCol = ''
+        iDividend = iCol
+        iModulo   = 0
+        while iDividend > 0:
+            iModulo   = (iDividend - 1) % 26
+            strCol    = chr(65 + iModulo) + strCol
+            iDividend = (int)((iDividend - iModulo) / 26)
+        strCell = strCol + str(iRow)
+        return strCell
+
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+class xlbRange(object):
+    #-------------------------------------------------------------------------------
+    def __init__(self, ws, range):
+        self.__ws = ws
+        self.__range = range
+
+    #-------------------------------------------------------------------------------
+    def setList(self, lstVals):
+        self.__range.Value = lstVals
+
+    #---------------------------------------------------------------------------
+    def setArray(self, arData):
+        import numpy as np
+
+        lstVals = []
+        for iRow in range(arData.shape[0]):
+            lstColVals = []
+            tplRowData = arData[iRow]
+            if len(arData.shape) == 1:
+                tplRowData = tuple([tplRowData])
+            for iCol in range(len(tplRowData)):
+                val = tplRowData[iCol]
+                
+                if isinstance(val, types.StringType) or isinstance(val, types.UnicodeType):
+                    cellVal = val
+                elif val == None:
+                    cellVal = ''
+                elif math.isnan(val) or math.isinf(val):
+                    cellVal =''
+                else:
+                    cellVal = np.asscalar(val)
+                
+                lstColVals.append(cellVal)                     
+            lstVals.append(lstColVals)
+
+        self.setList(lstVals)
+
+
+

@@ -10,16 +10,18 @@ Manipulate Excel table from python
 
 Set excel table values using python list
 
-    import xlb
-    
-    app = xlb.xlbApp()
-    wb = app.addWorkBook()
-    ws = wb.addWorkSheet()
-    ws.activate()
-    
-    #get range starting from cell 1,1 to 2,2
-    r = ws.getRange(1, 1, 2, 2)
-    
-    #set values on range
-    l = [[1, 11], [2, 22]]
-    r.setList(l)
+```python
+import xlb
+
+app = xlb.xlbApp()
+wb = app.addWorkBook()
+ws = wb.addWorkSheet()
+ws.activate()
+
+#get range starting from cell 1,1 to 2,2
+r = ws.getRange(1, 1, 2, 2)
+
+#set values on range
+l = [[1, 11], [2, 22]]
+r.setList(l)
+```

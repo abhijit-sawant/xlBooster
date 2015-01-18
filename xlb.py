@@ -4,6 +4,12 @@ import math
 import types
 import win32com.client
 
+try:
+    from win32com.client import gencache
+    gencache.EnsureModule('{00020813-0000-0000-C000-000000000046}', 0, 1, 6)
+except:
+    raise Exception('Could not generate required Excel constatns. Import of module failed.')
+
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 class xlbApp(object):
@@ -58,7 +64,7 @@ class xlbWorkBook(object):
 
     #-------------------------------------------------------------------------------
     def addWorkSheet(self):
-        ws = self.__wb.WorkSheets.Add()
+        ws = self.__wb.Worksheets.Add()
         return xlbWorkSheet(self.__app, ws)
 
     #-------------------------------------------------------------------------------
@@ -101,6 +107,13 @@ class xlbWorkSheet(object):
         return xlbRange(self, range)
 
     #-------------------------------------------------------------------------------
+    def addChart(self, xlRange, chartType):
+        chart = self.__ws.Shapes.AddChart().Chart
+        chart.ChartType = chartType        
+        chart.SetSourceData(xlRange.getRaw())
+        return xlbChart(self, chart)
+
+    #-------------------------------------------------------------------------------
     def __getRangeId(self, iFrmRow, iFrmCol, iToRow=0, iToCol=0):
         if iFrmRow == 0 or iFrmCol == 0:
             return ''
@@ -133,8 +146,13 @@ class xlbRange(object):
         self.__range = range
 
     #-------------------------------------------------------------------------------
+    def getRaw(self):
+        return self.__range
+
+    #-------------------------------------------------------------------------------
     def setList(self, lstVals):
         self.__range.Value = lstVals
+        self.__range.HorizontalAlignment = win32com.client.constants.xlLeft
 
     #---------------------------------------------------------------------------
     def setArray(self, arData):
@@ -163,5 +181,12 @@ class xlbRange(object):
 
         self.setList(lstVals)
 
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+class xlbChart(object):
+    #-------------------------------------------------------------------------------
+    def __init__(self, ws, chart):
+        self.__ws = ws
+        self.__chart = chart
 
-
+# End of file

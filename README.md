@@ -16,7 +16,6 @@ import xlb
 app = xlb.xlbApp()
 wb = app.addWorkBook()
 ws = wb.addWorkSheet()
-ws.activate()
 
 #get range starting from cell 1,1 to 2,2
 r = ws.getRange(1, 1, 2, 2)
@@ -24,4 +23,20 @@ r = ws.getRange(1, 1, 2, 2)
 #set values on range
 l = [[1, 11], [2, 22]]
 r.setList(l)
+```
+
+Set excel table values using NumPy array
+
+```python
+import numpy as np
+import xlb
+
+wb = app.addWorkBook()
+ws = wb.getWorkSheet('Sheet1')
+
+r = ws.getRange(1, 1, 2, 2)
+
+#set values on range
+ar = np.array([[1, 11], [2, 22]])
+r.setArray(ar)
 ```

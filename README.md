@@ -1,12 +1,8 @@
 xlBooster
 ==========
 
-Object oriented python interface to Excel. Users can manipulate Excel tabels from python. It also provides integration with 
-NumPy so that one can push NumPy arrays to Excel table. This interface can be used even if NumPy is not installed. In that
-case only NumPy related features will not be available.
-
-Manipulate Excel table from python
-----------------------------------
+Object oriented python interface to Excel. Users can work with Excel tabel from python. It also provides integration with 
+NumPy so that one can push NumPy array to Excel table or extract Excel tabel as NumPy array. This interface can be used even if NumPy is not installed. In that case only NumPy related features will not be available.
 
 Interact with excel table using python list/tuple 
 

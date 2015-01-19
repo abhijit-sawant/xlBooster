@@ -24,17 +24,17 @@ class xlbApp(object):
         return xlbWorkBook(self.__app, wb)
 
     #-------------------------------------------------------------------------------
-    def openWorkBook(self, strName):
-        wb = self.__app.Workbooks.Open(strName)
+    def openWorkBook(self, strPath):
+        wb = self.__app.Workbooks.Open(strPath)
         return xlbWorkBook(self.__app, wb)
 
     #-------------------------------------------------------------------------------
-    def getWorkBook(self, strFullName):
+    def getWorkBook(self, strName):
         count = self.__app.Workbooks.Count
-        strFullName = strFullName.replace('/', '\\')
+        strName = strName.replace('/', '\\')
         for i in range(count):
             wb = self.__app.Workbooks.Item(i+1)
-            if wb.FullName == strFullName:
+            if wb.FullName == strName:
                 return xlbWorkBook(self.__app, wb)
         return None
 
@@ -59,8 +59,8 @@ class xlbWorkBook(object):
         self.__wb.SaveAs(strName, self.__app.DefaultSaveFormat)
 
     #-------------------------------------------------------------------------------
-    def activate(self):
-        self.__wb.Activate()
+    def getName(self):
+        return self.__wb.FullName
 
     #-------------------------------------------------------------------------------
     def addWorkSheet(self):
@@ -94,8 +94,8 @@ class xlbWorkSheet(object):
         self.__ws = ws
 
     #-------------------------------------------------------------------------------
-    def activate(self):
-        self.__ws.Activate()
+    def getName(self):
+        return self.__ws.Name
 
     #-------------------------------------------------------------------------------
     def setName(self, strName):
@@ -111,6 +111,14 @@ class xlbWorkSheet(object):
         chart = self.__ws.Shapes.AddChart().Chart
         chart.ChartType = chartType        
         chart.SetSourceData(xlRange.getRaw())
+        chart.Name = "test"
+        return xlbChart(self, chart)
+
+    #-------------------------------------------------------------------------------
+    def getChart(self, strName):
+        chart = self.__ws.ChartObjects(strName)
+        if chart == None:
+            raise Exception('Could not find chart ( %s )' % strName)
         return xlbChart(self, chart)
 
     #-------------------------------------------------------------------------------
@@ -150,9 +158,13 @@ class xlbRange(object):
         return self.__range
 
     #-------------------------------------------------------------------------------
-    def setList(self, lstVals):
+    def setVals(self, lstVals):
         self.__range.Value = lstVals
         self.__range.HorizontalAlignment = win32com.client.constants.xlLeft
+
+    #-------------------------------------------------------------------------------
+    def getVals(self):
+        return self.__range.Value
 
     #---------------------------------------------------------------------------
     def setArray(self, arData):
@@ -179,7 +191,14 @@ class xlbRange(object):
                 lstColVals.append(cellVal)                     
             lstVals.append(lstColVals)
 
-        self.setList(lstVals)
+        self.setVals(lstVals)
+
+    #---------------------------------------------------------------------------
+    def getArray(self):
+        import numpy as np
+
+        return np.array(self.getVals())
+
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -188,5 +207,9 @@ class xlbChart(object):
     def __init__(self, ws, chart):
         self.__ws = ws
         self.__chart = chart
+
+    #-------------------------------------------------------------------------------
+    def setName(self, strName):
+        self.__chart.Name = strName
 
 # End of file

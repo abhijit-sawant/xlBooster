@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-import math
-import types
-import win32com.client
-
 try:
     from win32com.client import gencache
     gencache.EnsureModule('{00020813-0000-0000-C000-000000000046}', 0, 1, 6)
 except:
     raise Exception('Could not generate required Excel constatns. Import of module failed.')
+
+import math
+import types
+import win32com.client
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -199,6 +199,20 @@ class xlbRange(object):
 
         return np.array(self.getVals())
 
+    #---------------------------------------------------------------------------
+    def setFillColor(self, color):
+        self.__range.Interior.Color = color
+
+    #---------------------------------------------------------------------------
+    def setFontColor(self, color):
+        self.__range.Font.Color = color
+
+    #---------------------------------------------------------------------------
+    def setBorder(self, borderType):
+        self.__range.Borders(win32com.client.constants.xlEdgeTop).Weight    = borderType
+        self.__range.Borders(win32com.client.constants.xlEdgeBottom).Weight = borderType
+        self.__range.Borders(win32com.client.constants.xlEdgeRight).Weight  = borderType
+        self.__range.Borders(win32com.client.constants.xlEdgeLeft).Weight   = borderType
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------

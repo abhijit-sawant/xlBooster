@@ -16,7 +16,6 @@ def setVals():
     wb = app.addWorkBook()
     ws = wb.addWorkSheet()
     ws.setName(strNameWs)
-
     r = ws.getRange(1, 1, 10, 2)
 
     l = [[i+j for i in range(2)] for j in range(10)]
@@ -29,11 +28,20 @@ def setVals():
 def getVals():
     wb = app.openWorkBook(strPathWb)
     ws = wb.getWorkSheet(strNameWs)
-
     r = ws.getRange(1, 1, 10, 2)
 
     l = r.getVals()
     print l
+
+#-------------------------------------------------------------------------------
+def setVis():
+    wb = app.openWorkBook(strPathWb)
+    ws = wb.getWorkSheet(strNameWs)
+    r = ws.getRange(1, 1, 10, 2)
+
+    r.setFillColor(11919826)
+    r.setFontColor(38400)
+    r.setBorder(win32com.client.constants.xlMedium)
 
 #-------------------------------------------------------------------------------
 def setArray():
@@ -41,7 +49,6 @@ def setArray():
 
     wb = app.addWorkBook()
     ws = wb.getWorkSheet('Sheet1')
-
     r = ws.getRange(1, 1, 2, 2)
 
     ar = np.array([[1, 11], [2, 22]])
@@ -51,8 +58,8 @@ def setArray():
 def getArray():
     wb = app.getWorkBook('Book1')
     ws = wb.getWorkSheet('Sheet1')
-
     r = ws.getRange(1, 1, 2, 2)
+    
     ar = r.getArray()
     print ar
 

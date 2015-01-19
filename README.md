@@ -8,7 +8,7 @@ case only NumPy related features will not be available.
 Manipulate Excel table from python
 ----------------------------------
 
-Set excel table values using python list
+Interact with excel table using python list/tuple 
 
 ```python
 import xlb
@@ -16,6 +16,7 @@ import xlb
 app = xlb.xlbApp()
 wb = app.addWorkBook()
 ws = wb.addWorkSheet()
+ws.setName('Data')
 
 #get range starting from cell 1,1 to 2,2
 r = ws.getRange(1, 1, 2, 2)
@@ -23,11 +24,21 @@ r = ws.getRange(1, 1, 2, 2)
 #set values on range
 l = [[1, 11], [2, 22]]
 r.setList(l)
+
+wb.saveAs('C:\\report')
+wb.close()
+
+#get values as tuple
+wb = app.openWorkBook('C:\\report.xlsx')
+ws = wb.getWorkSheet('Data')
+
+r = ws.getRange(1, 1, 2, 2)
+tup = r.getVals()
 ```
 
-Set excel table values using NumPy array
+Interact with excel table using NumPy array
 
-```python
+```python 
 import numpy as np
 import xlb
 
@@ -37,6 +48,9 @@ ws = wb.getWorkSheet('Sheet1')
 r = ws.getRange(1, 1, 2, 2)
 
 #set values on range
-ar = np.array([[1, 11], [2, 22]])
-r.setArray(ar)
+ar_in = np.array([[1, 11], [2, 22]])
+r.setArray(ar_in)
+
+#get values as array
+ar_out = r.getArray()
 ```

@@ -2,7 +2,7 @@
 
 import os
 import win32com
-import xlb
+import xlbooster.xlb as xlb
 
 app = xlb.xlbApp()
 strPathWb = 'C:\\Users\\asawant\\PlayGround\\GitHub\\xlBooster\\tests\\test'

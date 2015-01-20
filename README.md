@@ -7,7 +7,7 @@ NumPy so that one can push NumPy array to Excel table or extract Excel tabel as 
 Interact with excel table using python list/tuple 
 
 ```python
-import xlb
+import xlbooster.xlb as xlb
 
 app = xlb.xlbApp()
 wb = app.addWorkBook()
@@ -36,7 +36,7 @@ Interact with excel table using NumPy array
 
 ```python 
 import numpy as np
-import xlb
+import xlbooster.xlb as xlb
 
 wb = app.addWorkBook()
 ws = wb.getWorkSheet('Sheet1')

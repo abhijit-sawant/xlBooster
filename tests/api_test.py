@@ -2,7 +2,8 @@
 
 import os
 import win32com
-import xlbooster.xlb as xlb
+import xlbooster.constants as constants
+import xlbooster.xlb       as xlb
 
 app = xlb.xlbApp()
 strPathWb = 'C:\\Users\\asawant\\PlayGround\\GitHub\\xlBooster\\tests\\test'
@@ -41,7 +42,7 @@ def setVis():
 
     r.setFillColor(11919826)
     r.setFontColor(38400)
-    r.setBorder(win32com.client.constants.xlMedium)
+    r.setBorder(constants.xlMedium)
 
 #-------------------------------------------------------------------------------
 def setArray():
@@ -65,7 +66,7 @@ def getArray():
 
 #-------------------------------------------------------------------------------
 def createBarChartStacked():
-    chart = ws.addChart(r, win32com.client.constants.xlColumnStacked)
+    chart = ws.addChart(r, constants.xlColumnStacked)
     #chart.setName('bar_chart')
     #bar_chart = ws.getChart('bar_chart')
 

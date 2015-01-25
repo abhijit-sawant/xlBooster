@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
-try:
-    from win32com.client import gencache
-    gencache.EnsureModule('{00020813-0000-0000-C000-000000000046}', 0, 1, 6)
-except:
-    raise Exception('Could not generate required Excel constatns. Import of module failed.')
+#try:
+#    #from win32com.client import gencache
+#    gencache.EnsureModule('{00020813-0000-0000-C000-000000000046}', 0, 1, 6) #excel 2007
+#    #gencache.EnsureModule('{00020905-0000-0000-C000-000000000046}', 0, 8, 6) #excel 2013
+#except:
+#    raise Exception('Could not generate required Excel constatns. Import of module failed.')
 
 import math
 import types
 import win32com.client
+import xlbooster.constants as constants
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -160,7 +162,7 @@ class xlbRange(object):
     #-------------------------------------------------------------------------------
     def setVals(self, lstVals):
         self.__range.Value = lstVals
-        self.__range.HorizontalAlignment = win32com.client.constants.xlLeft
+        self.__range.HorizontalAlignment = constants.xlLeft
 
     #-------------------------------------------------------------------------------
     def getVals(self):
@@ -209,10 +211,10 @@ class xlbRange(object):
 
     #---------------------------------------------------------------------------
     def setBorder(self, borderType):
-        self.__range.Borders(win32com.client.constants.xlEdgeTop).Weight    = borderType
-        self.__range.Borders(win32com.client.constants.xlEdgeBottom).Weight = borderType
-        self.__range.Borders(win32com.client.constants.xlEdgeRight).Weight  = borderType
-        self.__range.Borders(win32com.client.constants.xlEdgeLeft).Weight   = borderType
+        self.__range.Borders(constants.xlEdgeTop).Weight    = borderType
+        self.__range.Borders(constants.xlEdgeBottom).Weight = borderType
+        self.__range.Borders(constants.xlEdgeRight).Weight  = borderType
+        self.__range.Borders(constants.xlEdgeLeft).Weight   = borderType
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------

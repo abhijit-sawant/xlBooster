@@ -1,5 +1,12 @@
 #!usr/bin/env python
 
+# Copyright 2015 Abhijit Sawant (abhijit.abhi1980@gmail.com)
+#
+# Licensed under the MIT License. You may not use this file except in compliance with the 
+# License. You may obtain a copy of the License at
+# 
+# http://opensource.org/licenses/MIT
+
 xl3DBar                       =-4099      # from enum Constants
 xl3DEffects1                  =13         # from enum Constants
 xl3DEffects2                  =14         # from enum Constants

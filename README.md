@@ -50,3 +50,6 @@ r.setArray(ar_in)
 #get values as array
 ar_out = r.getArray()
 ```
+==========
+
+This software is licensed under MIT license. The copy of MIT license can be obtained from this link - http://opensource.org/licenses/MIT

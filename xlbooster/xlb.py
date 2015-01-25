@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 
+# Copyright 2015 Abhijit Sawant (abhijit.abhi1980@gmail.com)
+#
+# Licensed under the MIT License. You may not use this file except in compliance with the 
+# License. You may obtain a copy of the License at
+# 
+# http://opensource.org/licenses/MIT
+
+
 #try:
 #    #from win32com.client import gencache
 #    gencache.EnsureModule('{00020813-0000-0000-C000-000000000046}', 0, 1, 6) #excel 2007

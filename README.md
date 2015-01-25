@@ -50,6 +50,25 @@ r.setArray(ar_in)
 #get values as array
 ar_out = r.getArray()
 ```
+
+Modify visual properties
+
+```python 
+import numpy as np
+import xlbooster.constants as constants
+import xlbooster.xlb as xlb
+
+wb = app.addWorkBook()
+ws = wb.getWorkSheet('Sheet1')
+
+r = ws.getRange(1, 1, 10, 2)
+
+r.setFillColor(11919826) #Hex value for color
+r.setFontColor(38400)
+r.setFont('arial', 'bold')
+r.setBorder(constants.xlMedium)
+```
+
 ==========
 
 This software is licensed under MIT license. The copy of MIT license can be obtained from this link - http://opensource.org/licenses/MIT

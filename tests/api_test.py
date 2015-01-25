@@ -42,6 +42,7 @@ def setVis():
 
     r.setFillColor(11919826)
     r.setFontColor(38400)
+    r.setFont('arial', 'bold')
     r.setBorder(constants.xlMedium)
 
 #-------------------------------------------------------------------------------

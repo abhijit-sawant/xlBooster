@@ -218,6 +218,11 @@ class xlbRange(object):
         self.__range.Font.Color = color
 
     #---------------------------------------------------------------------------
+    def setFont(self, name = '', style = ''):
+        self.__range.Font.Name      = name
+        self.__range.Font.FontStyle = style
+
+    #---------------------------------------------------------------------------
     def setBorder(self, borderType):
         self.__range.Borders(constants.xlEdgeTop).Weight    = borderType
         self.__range.Borders(constants.xlEdgeBottom).Weight = borderType

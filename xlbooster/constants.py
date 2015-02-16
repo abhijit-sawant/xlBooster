@@ -7,6 +7,11 @@
 # 
 # http://opensource.org/licenses/MIT
 
+"""The module for all Excel enum constants.
+
+The names of enums are exactly same as in Excel VB
+"""
+
 xl3DBar                       =-4099      # from enum Constants
 xl3DEffects1                  =13         # from enum Constants
 xl3DEffects2                  =14         # from enum Constants
